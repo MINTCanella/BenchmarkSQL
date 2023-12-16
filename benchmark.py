@@ -184,10 +184,10 @@ def sqlalchemy_bench():
         trip.query(trips.passenger_count, func.avg(trips.total_amount)).group_by(trips.passenger_count).all()
         times[1][i] = time.time() - start_time
         start_time = time.time()
-        trip.query(trips.passenger_count, extract('year', trips.pickup_datetime), func.count().label('count')).group_by(trips.passenger_count, extract('year', trips.pickup_datetime)).all()
+        trip.query(trips.passenger_count, extract('date', trips.pickup_datetime), func.count().label('count')).group_by(trips.passenger_count, extract('date', trips.pickup_datetime)).all()
         times[2][i] = time.time() - start_time
         start_time = time.time()
-        trip.query(trips.passenger_count, extract('year', trips.pickup_datetime), func.round(trips.trip_distance), func.count().label('count')).group_by(trips.passenger_count, extract('year', trips.pickup_datetime), func.round(trips.trip_distance)).order_by(extract('year', trips.pickup_datetime), desc(func.count().label('count'))).all()
+        trip.query(trips.passenger_count, extract('date', trips.pickup_datetime), func.round(trips.trip_distance), func.count().label('count')).group_by(trips.passenger_count, extract('date', trips.pickup_datetime), func.round(trips.trip_distance)).order_by(extract('date', trips.pickup_datetime), desc(func.count().label('count'))).all()
         times[3][i] = time.time() - start_time
     trip.close()
     write_file("sqlalchemy_", times)
